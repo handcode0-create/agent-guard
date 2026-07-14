@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Agent Guard Bridge — Options</title>
+<style>
+  body {
+    font-family: -apple-system, sans-serif;
+    background: #0b0b0b;
+    color: #fff;
+    padding: 24px;
+    max-width: 480px;
+  }
+  h1 { font-size: 18px; color: #ff6a00; }
+  label { display: block; margin-top: 16px; font-size: 13px; color: #ccc; }
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    background: #1a1a1a;
+    color: #fff;
+    box-sizing: border-box;
+  }
+  button {
+    margin-top: 20px;
+    background: #ff6a00;
+    color: #0b0b0b;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  #status { margin-top: 12px; font-size: 13px; }
+  .hint { font-size: 12px; color: #888; margin-top: 4px; }
+</style>
+</head>
+<body>
+  <h1>Agent Guard Bridge</h1>
+  <p class="hint">Ce token doit être exactement le même que celui défini dans config.json du serveur local.</p>
+
+  <label for="serverUrl">URL du serveur local</label>
+  <input id="serverUrl" type="text" placeholder="http://localhost:4756" />
+
+  <label for="token">Token partagé</label>
+  <input id="token" type="text" placeholder="le même token que dans config.json" />
+
+  <button id="save">Enregistrer</button>
+  <div id="status"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>

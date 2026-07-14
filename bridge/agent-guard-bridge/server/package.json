@@ -1,0 +1,13 @@
+{
+  "name": "agent-guard-bridge-server",
+  "version": "1.0.0",
+  "description": "Serveur local qui reçoit du code depuis Google AI Studio (via l'extension Chrome) et l'écrit UNIQUEMENT dans .agent-guard/staging/, jamais dans le projet réel.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
