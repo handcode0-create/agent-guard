@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>agent-guard — Pare-feu pour agents IA</title>
+  <meta name="description" content="agent-guard est un middleware CLI qui impose une validation humaine avant que du code généré par une IA ne touche ton projet réel." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #f9fafb;
+    }
+    h2 {
+      font-size: 1.4rem;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      color: #e5e7eb;
+    }
+    p {
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+    code {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: #111827;
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    pre {
+      background: #020617;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      border: 1px solid #1f2937;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      background: #111827;
+      color: #9ca3af;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+    .hero {
+      margin-bottom: 2rem;
+    }
+    .hero-cta {
+      margin-top: 1.5rem;
+    }
+    .button {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      background: #6366f1;
+      color: #f9fafb;
+      font-weight: 500;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      margin-right: 0.75rem;
+    }
+    .button.secondary {
+      background: #111827;
+      color: #e5e7eb;
+      border: 1px solid #374151;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: #020617;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      border: 1px solid #1f2937;
+    }
+    .card h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: #e5e7eb;
+    }
+    .footer {
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      color: #6b7280;
+      text-align: center;
+    }
+    ul {
+      padding-left: 1.1rem;
+    }
+    li {
+      margin-bottom: 0.4rem;
+    }
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <div class="badge">CLI · Agent Safety · Middleware IA</div>
+      <h1>agent-guard</h1>
+      <p>
+        Ne laisse plus un agent IA réécrire silencieusement ton code.
+        <br />
+        <strong>agent-guard</strong> force tous les changements générés par l'IA à passer par un
+        dossier de staging et une validation humaine explicite.
+      </p>
+      <div class="hero-cta">
+        <a class="button" href="https://github.com/handcode0-create/agent-guard" target="_blank" rel="noopener noreferrer">Voir sur GitHub</a>
+        <a class="button secondary" href="#how-it-works">Comment ça marche ?</a>
+      </div>
+    </div>
+
+    <h2>TL;DR</h2>
+    <p>
+      L'agent IA n'a jamais accès directement à ton projet réel.
+    </p>
+    <p>
+      Il écrit ses fichiers dans <code>.agent-guard/staging/</code>, tu vois les diffs, puis tu
+      décides quoi approuver ou rejeter. Aucune écriture automatique, aucun commit
+      surprise.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Cas d'usage typique</h3>
+        <p>
+          Tu demandes à Google AI Studio ou un autre agent de refactorer ton front (React,
+          Tailwind) ou de générer du code backend.
+        </p>
+        <ul>
+          <li>L'agent écrit dans <code>.agent-guard/staging/</code>, pas dans ton repo.</li>
+          <li>Tu inspectes avec <code>agent-guard diff</code>.</li>
+          <li>Tu appliques uniquement ce que tu valides avec <code>approve</code>.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Bridge Google AI Studio</h3>
+        <p>
+          Une extension Chrome redirige les fichiers générés par Google AI Studio vers le
+          staging d'<code>agent-guard</code>.
+        </p>
+        <ul>
+          <li>Aucun fichier modifié en direct dans ton projet.</li>
+          <li>Compatible avec ton workflow actuel dans AI Studio.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 id="how-it-works">Scénario de test rapide</h2>
+    <p>
+      Tu peux tester le concept en quelques minutes sur un projet de démo.
+    </p>
+    <pre><code># 1. Créer un projet de test
+mkdir demo-agent-guard
+cd demo-agent-guard
+npm init -y
+mkdir src
+echo "console.log('Hello');" > src/app.js
+
+# 2. Initialiser agent-guard
+agent-guard init
+
+# 3. Simuler un agent IA (écriture dans le staging)
+cp src/app.js .agent-guard/staging/src/app.js
+echo "console.log('Hello from AI');" >> .agent-guard/staging/src/app.js
+
+# 4. Voir les modifications proposées
+agent-guard status
+agent-guard diff src/app.js
+
+# 5. Appliquer seulement ce que tu acceptes
+agent-guard approve src/app.js
+# ou rejeter
+# agent-guard reject src/app.js</code></pre>
+
+    <h2>Pourquoi pas un simple hook Git ?</h2>
+    <p>
+      Un hook Git peut être oublié, contourné ou désactivé.
+    </p>
+    <p>
+      Avec <strong>agent-guard</strong>, l'agent n'a tout simplement jamais accès au projet réel :
+      il ne peut écrire que dans un dossier physique séparé. La validation humaine devient
+      structurelle, pas optionnelle.
+    </p>
+
+    <div class="footer">
+      MIT — HANDCODE STUDIO · Fait pour les devs qui ne veulent plus que l'IA casse leur code en silence.
+    </div>
+  </div>
+</body>
+</html>
