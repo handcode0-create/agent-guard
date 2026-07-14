@@ -2,121 +2,247 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>agent-guard — Pare-feu pour agents IA</title>
+  <title>agent-guard — Pare-feu pour agents IA | handCode</title>
   <meta name="description" content="agent-guard est un middleware CLI qui impose une validation humaine avant que du code généré par une IA ne touche ton projet réel." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
   <style>
+    :root {
+      --primary: #f97316; /* Orange vibrant handCode */
+      --primary-glow: rgba(249, 115, 22, 0.15);
+      --bg: #030712;      /* Ultra sombre premium */
+      --glass-bg: rgba(17, 24, 39, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-border-hover: rgba(249, 115, 22, 0.3);
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.04) 0%, transparent 40%);
+      background-attachment: fixed;
+      color: var(--text);
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
     }
+
     .container {
       max-width: 900px;
       margin: 0 auto;
-      padding: 2rem 1.5rem 4rem;
+      padding: 4rem 1.5rem;
     }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      color: #f9fafb;
-    }
-    h2 {
-      font-size: 1.4rem;
-      margin-top: 2rem;
-      margin-bottom: 0.5rem;
-      color: #e5e7eb;
-    }
-    p {
-      line-height: 1.6;
-      margin-bottom: 0.75rem;
-    }
-    code {
-      font-family: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      background: #111827;
-      padding: 0.15rem 0.35rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-    }
-    pre {
-      background: #020617;
-      padding: 0.75rem 1rem;
-      border-radius: 8px;
-      overflow-x: auto;
-      font-size: 0.9rem;
-      line-height: 1.4;
-      border: 1px solid #1f2937;
-    }
+
+    /* Badge */
     .badge {
       display: inline-block;
-      padding: 0.25rem 0.6rem;
+      padding: 0.35rem 0.85rem;
       border-radius: 999px;
-      background: #111827;
-      color: #9ca3af;
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid rgba(249, 115, 22, 0.2);
+      color: var(--primary);
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.75rem;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
+
+    /* Hero Section */
     .hero {
+      margin-bottom: 4rem;
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #ffffff 40%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      color: var(--text-muted);
       margin-bottom: 2rem;
     }
+
+    /* Boutons Glassmorphism */
     .hero-cta {
-      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
+
     .button {
-      display: inline-block;
-      padding: 0.6rem 1.2rem;
-      border-radius: 999px;
-      background: #6366f1;
-      color: #f9fafb;
-      font-weight: 500;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem 1.8rem;
+      border-radius: 8px;
+      font-weight: 600;
       font-size: 0.95rem;
-      margin-right: 0.75rem;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
     }
+
+    .button.primary {
+      background: rgba(249, 115, 22, 0.15);
+      color: #fff;
+      border: 1px solid var(--primary);
+      box-shadow: 0 0 20px var(--primary-glow);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .button.primary:hover {
+      background: var(--primary);
+      color: #000;
+      box-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
+      transform: translateY(-2px);
+    }
+
     .button.secondary {
-      background: #111827;
-      color: #e5e7eb;
-      border: 1px solid #374151;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
+
+    .button.secondary:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Titres */
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.75rem;
+      margin-top: 4rem;
+      margin-bottom: 1rem;
+      color: #ffffff;
+      border-left: 3px solid var(--primary);
+      padding-left: 0.75rem;
+    }
+
+    h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      color: #ffffff;
+    }
+
+    p {
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    /* Éléments de Code */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: var(--primary);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    pre {
+      background: rgba(2, 6, 23, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 1.25rem;
+      border-radius: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--glass-border);
+      margin: 1.5rem 0;
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      border: none;
+      color: #e2e8f0;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    /* Grille et Cartes Glassmorphism */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
       margin-top: 2rem;
     }
+
     .card {
-      background: #020617;
-      border-radius: 10px;
-      padding: 1rem 1.2rem;
-      border: 1px solid #1f2937;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .card h3 {
-      margin-top: 0;
-      font-size: 1.1rem;
+
+    .card:hover {
+      border-color: var(--glass-border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5), 0 0 15px rgba(249, 115, 22, 0.05);
+    }
+
+    ul {
+      padding-left: 1.2rem;
+      margin-bottom: 0;
+    }
+
+    li {
       margin-bottom: 0.5rem;
-      color: #e5e7eb;
+      line-height: 1.6;
+      color: var(--text-muted);
     }
+
+    /* Footer */
     .footer {
-      margin-top: 3rem;
-      font-size: 0.8rem;
-      color: #6b7280;
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--glass-border);
+      font-size: 0.85rem;
+      color: #4b5563;
       text-align: center;
     }
-    ul {
-      padding-left: 1.1rem;
-    }
-    li {
-      margin-bottom: 0.4rem;
-    }
+
     @media (max-width: 640px) {
       h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
+      }
+      .container {
+        padding: 2rem 1rem;
+      }
+      .grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -124,16 +250,16 @@
 <body>
   <div class="container">
     <div class="hero">
-      <div class="badge">CLI · Agent Safety · Middleware IA</div>
+      <div class="badge">CLI · Agent Safety · handCode Studio</div>
       <h1>agent-guard</h1>
       <p>
-        Ne laisse plus un agent IA réécrire silencieusement ton code.
+        Ne laisse plus un agent IA réécrire silencieusement ton code. 
         <br />
-        <strong>agent-guard</strong> force tous les changements générés par l'IA à passer par un
+        <strong>agent-guard</strong> force tous les changements générés par l'IA à passer par un 
         dossier de staging et une validation humaine explicite.
       </p>
       <div class="hero-cta">
-        <a class="button" href="https://github.com/handcode0-create/agent-guard" target="_blank" rel="noopener noreferrer">Voir sur GitHub</a>
+        <a class="button primary" href="https://github.com/handcode0-create/agent-guard" target="_blank" rel="noopener noreferrer">Voir sur GitHub</a>
         <a class="button secondary" href="#how-it-works">Comment ça marche ?</a>
       </div>
     </div>
@@ -143,16 +269,16 @@
       L'agent IA n'a jamais accès directement à ton projet réel.
     </p>
     <p>
-      Il écrit ses fichiers dans <code>.agent-guard/staging/</code>, tu vois les diffs, puis tu
-      décides quoi approuver ou rejeter. Aucune écriture automatique, aucun commit
-      surprise.
+      Il écrit ses fichiers dans <code>.agent-guard/staging/</code>, tu vois les diffs, puis tu 
+      décides quoi approuver ou rejeter. Aucune écriture automatique, aucun commit 
+      surprise. Si tu utilises des agents pour modifier ton code, teste-le avant que ça ne casse tout en silence.
     </p>
 
     <div class="grid">
       <div class="card">
         <h3>Cas d'usage typique</h3>
         <p>
-          Tu demandes à Google AI Studio ou un autre agent de refactorer ton front (React,
+          Tu demandes à Google AI Studio ou un autre agent de refactorer ton front (React, 
           Tailwind) ou de générer du code backend.
         </p>
         <ul>
@@ -165,7 +291,7 @@
       <div class="card">
         <h3>Bridge Google AI Studio</h3>
         <p>
-          Une extension Chrome redirige les fichiers générés par Google AI Studio vers le
+          Une extension Chrome redirige les fichiers générés par Google AI Studio vers le 
           staging d'<code>agent-guard</code>.
         </p>
         <ul>
@@ -207,13 +333,13 @@ agent-guard approve src/app.js
       Un hook Git peut être oublié, contourné ou désactivé.
     </p>
     <p>
-      Avec <strong>agent-guard</strong>, l'agent n'a tout simplement jamais accès au projet réel :
-      il ne peut écrire que dans un dossier physique séparé. La validation humaine devient
+      Avec <strong>agent-guard</strong>, l'agent n'a tout simplement jamais accès au projet réel : 
+      il ne peut écrire que dans un dossier physique séparé. La validation humaine devient 
       structurelle, pas optionnelle.
     </p>
 
     <div class="footer">
-      MIT — HANDCODE STUDIO · Fait pour les devs qui ne veulent plus que l'IA casse leur code en silence.
+      MIT — HANDCODE STUDIO · Fait avec précision pour les développeurs qui veulent garder le contrôle.
     </div>
   </div>
 </body>
