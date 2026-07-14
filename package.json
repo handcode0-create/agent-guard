@@ -1,0 +1,20 @@
+{
+  "name": "agent-guard",
+  "version": "1.0.0",
+  "description": "Middleware CLI qui impose une validation humaine avant que du code généré par une IA ne soit écrit dans un projet réel.",
+  "main": "src/guard.js",
+  "bin": {
+    "agent-guard": "./bin/cli.js"
+  },
+  "type": "commonjs",
+  "scripts": {
+    "test": "node test/run.js"
+  },
+  "keywords": ["ai", "agent", "guard", "safety", "code-review", "diff"],
+  "author": "HANCODE STUDIO",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "diff": "^5.2.0"
+  }
+}
